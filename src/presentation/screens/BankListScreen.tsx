@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, Text, Image } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import GetBankListUseCase from '../../domain/useCases/GetBankListUseCase';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -10,6 +10,8 @@ const BankListScreen = () => {
     const { top } = useSafeAreaInsets();
 
     useEffect(() => {
+        // OJO: Solo descomentar la linea de abajo si se desea hacer pruebas de funcionamiento de api y BD y ver consola.
+        // removeItemBD();
         const getBankListUseCase = new GetBankListUseCase();
 
         getBankListUseCase.execute()
@@ -20,6 +22,16 @@ const BankListScreen = () => {
                 console.log(error);
             });
     }, []);
+
+    const removeItemBD = async() => {
+        try {
+            await AsyncStorage.removeItem('banks');
+            return true;
+        }
+        catch(exception) {
+            return false;
+        }
+    }
 
     return (
         <View style={{ ...styles.container, marginTop: top + 15 }}>

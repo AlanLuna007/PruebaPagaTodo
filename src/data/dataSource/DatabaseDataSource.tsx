@@ -1,5 +1,3 @@
-// import { AsyncStorage } from 'react-native';
-// import AsyncStorage from '@react-native-community/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BankObject from '../../domain/models/BankObject';
 
@@ -19,9 +17,7 @@ class DatabaseDataSource {
 
   async createBankTableIfNotExists() {    
     try {
-      // console.log('Bank table created');
     } catch (error) {
-      console.log('createBankTableIfNotExistserror', error);
       throw new Error('Failed to create bank table');
     }
   }
@@ -29,7 +25,7 @@ class DatabaseDataSource {
   async saveBankList(bankList: BankObject[]): Promise<void> {
     try {
       await AsyncStorage.setItem('banks', JSON.stringify(bankList));
-      console.log('Bank list saved');
+      console.log('Bank list saved in BD');
     } catch (error) {
       throw error;
     }
@@ -42,7 +38,7 @@ class DatabaseDataSource {
       
       if (savedBankList) {
         const bankList: BankObject[] = JSON.parse(savedBankList);
-        console.log('Bank list retrieved');
+        console.log('Bank list retrieved from BD');
         return bankList;
       } else {
         return [];
